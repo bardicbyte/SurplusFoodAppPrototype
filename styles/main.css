@@ -303,11 +303,20 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.safety-score-badge.A { background: linear-gradient(135deg, #4CAF50, #45a049); }
-.safety-score-badge.B { background: linear-gradient(135deg, #8BC34A, #7CB342); }
-.safety-score-badge.C { background: linear-gradient(135deg, #FFC107, #FFB300); }
-.safety-score-badge.D { background: linear-gradient(135deg, #FF9800, #F57C00); }
-.safety-score-badge.F { background: linear-gradient(135deg, #F44336, #E53935); }
+.safety-score-badge {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 12px;
+    min-width: 35px;
+    text-align: center;
+}
+
+.safety-score-badge.high { background: linear-gradient(135deg, #4CAF50, #45a049); }
+.safety-score-badge.medium { background: linear-gradient(135deg, #FFC107, #FFB300); }
+.safety-score-badge.low { background: linear-gradient(135deg, #F44336, #E53935); }
 
 .urgent-badge {
     position: absolute;
@@ -939,3 +948,176 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
+
+/* Menu Page Styles */
+.menu-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background: white;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    background: #f8f9fa;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #667eea;
+}
+
+.back-btn:hover {
+    background: #e9ecef;
+    transform: scale(1.1);
+}
+
+.menu-title h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.menu-title p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+.menu-categories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+    overflow-x: auto;
+}
+
+.category-btn {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.category-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
+}
+
+.menu-item {
+    background: white;
+    border-radius: 16px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+}
+
+.menu-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.menu-item-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.freshness-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.freshness-indicator.fresh {
+    background: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.freshness-indicator.warning {
+    background: #FF9800;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+}
+
+.freshness-indicator.expired {
+    background: #F44336;
+    box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+}
+
+.menu-item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.menu-item-stats {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.menu-item-stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.menu-item-stat i {
+    color: #667eea;
+}
+
+.safety-score-numeric {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 40px;
+    text-align: center;
+}
+
+.safety-score-numeric.high { background: linear-gradient(135deg, #4CAF50, #45a049); }
+.safety-score-numeric.medium { background: linear-gradient(135deg, #FFC107, #FFB300); }
+.safety-score-numeric.low { background: linear-gradient(135deg, #F44336, #E53935); }

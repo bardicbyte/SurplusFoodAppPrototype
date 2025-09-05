@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Surplus Food App - Fallback</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Fallback content if component loading fails -->
+    <div class="app-container">
+        <header class="mobile-header">
+            <h1>🍽️ Surplus Food</h1>
+            <p>Component loading failed. Please refresh the page.</p>
+        </header>
+        
+        <main class="main-content">
+            <div class="page active">
+                <div class="no-items">
+                    <h2>Loading Error</h2>
+                    <p>Unable to load app components. Please check your internet connection and refresh the page.</p>
+                    <button class="btn btn-primary" onclick="window.location.reload()">
+                        <i class="fas fa-refresh"></i> Refresh Page
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Simple fallback script
+        console.error('Component loading failed, showing fallback content');
+    </script>
+</body>
+</html>

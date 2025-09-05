@@ -8,10 +8,13 @@ class SurplusFoodApp {
         this.foodManager = new FoodManager();
         this.personManager = new PersonManager();
         this.matcher = new FoodMatcher();
+        this.componentLoader = new ComponentLoader();
         
-        this.currentPage = 'home';
+        this.currentPage = 'restaurants';
         this.currentFilter = 'all';
         this.searchQuery = '';
+        this.currentRestaurant = null;
+        this.currentMenuCategory = 'all';
         
         this.init();
     }
@@ -19,68 +22,109 @@ class SurplusFoodApp {
     /**
      * Initialize the application
      */
-    init() {
+    async init() {
+        await this.loadComponents();
         this.setupEventListeners();
         this.loadSampleData();
         this.updateDisplay();
-        this.showPage('home');
+        this.showPage('restaurants');
+    }
+
+    /**
+     * Load all HTML components
+     */
+    async loadComponents() {
+        try {
+            // Load header and sidebar
+            await this.componentLoader.insertComponent('header-container', 'header');
+            await this.componentLoader.insertComponent('sidebar-container', 'sidebar');
+            
+            // Load all pages
+            await this.componentLoader.insertComponent('pages-container', 'restaurants-page');
+            await this.componentLoader.appendComponent('pages-container', 'menu-page');
+            await this.componentLoader.appendComponent('pages-container', 'orders-page');
+            await this.componentLoader.appendComponent('pages-container', 'add-food-page');
+            await this.componentLoader.appendComponent('pages-container', 'matches-page');
+            await this.componentLoader.appendComponent('pages-container', 'profile-page');
+            
+            // Load floating button
+            await this.componentLoader.insertComponent('floating-button-container', 'floating-button');
+            
+        } catch (error) {
+            console.error('Error loading components:', error);
+        }
     }
 
     /**
      * Set up event listeners for mobile interface
      */
     setupEventListeners() {
-        // Sidebar controls
-        const menuToggle = document.getElementById('menuToggle');
-        const closeSidebar = document.getElementById('closeSidebar');
-        const overlay = document.getElementById('overlay');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => this.toggleSidebar());
-        closeSidebar.addEventListener('click', () => this.closeSidebar());
-        overlay.addEventListener('click', () => this.closeSidebar());
-
-        // Navigation links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
+        // Use event delegation for dynamically loaded components
+        document.addEventListener('click', (e) => {
+            // Sidebar controls
+            if (e.target.closest('#menuToggle')) {
+                this.toggleSidebar();
+            } else if (e.target.closest('#closeSidebar') || e.target.closest('#overlay')) {
+                this.closeSidebar();
+            }
+            
+            // Navigation links
+            if (e.target.closest('.nav-link')) {
                 e.preventDefault();
+                const link = e.target.closest('.nav-link');
                 const page = link.getAttribute('data-page');
                 this.showPage(page);
                 this.closeSidebar();
-            });
+            }
+            
+            // Profile button
+            if (e.target.closest('#profileBtn')) {
+                this.showPage('profile');
+            }
+            
+            // Floating action button
+            if (e.target.closest('#floatingAddBtn')) {
+                this.showPage('add-food');
+            }
+            
+            // Back to restaurants button
+            if (e.target.closest('#backToRestaurants')) {
+                this.showPage('restaurants');
+            }
+            
+            // Filter buttons
+            if (e.target.closest('.filter-btn')) {
+                const btn = e.target.closest('.filter-btn');
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.currentFilter = btn.getAttribute('data-filter');
+                this.updateDisplay();
+            }
+            
+            // Menu category buttons
+            if (e.target.closest('.category-btn')) {
+                const btn = e.target.closest('.category-btn');
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.currentMenuCategory = btn.getAttribute('data-category');
+                this.updateMenuDisplay();
+            }
         });
 
         // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        searchInput.addEventListener('input', (e) => {
-            this.searchQuery = e.target.value;
-            this.updateDisplay();
-        });
-
-        // Filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                this.currentFilter = e.target.getAttribute('data-filter');
+        document.addEventListener('input', (e) => {
+            if (e.target.id === 'searchInput') {
+                this.searchQuery = e.target.value;
                 this.updateDisplay();
-            });
+            }
         });
 
         // Form submissions
-        document.getElementById('foodForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleFoodFormSubmit();
-        });
-
-        // Profile button
-        document.getElementById('profileBtn').addEventListener('click', () => {
-            this.showPage('profile');
-        });
-
-        // Floating action button
-        document.getElementById('floatingAddBtn').addEventListener('click', () => {
-            this.showPage('add-food');
+        document.addEventListener('submit', (e) => {
+            if (e.target.id === 'foodForm') {
+                e.preventDefault();
+                this.handleFoodFormSubmit();
+            }
         });
     }
 
@@ -139,11 +183,11 @@ class SurplusFoodApp {
      */
     updatePageContent(pageName) {
         switch (pageName) {
-            case 'home':
+            case 'restaurants':
                 this.updateRestaurantDisplay();
                 break;
-            case 'restaurants':
-                this.updateRestaurantDetails();
+            case 'menu':
+                this.updateMenuDisplay();
                 break;
             case 'orders':
                 this.updateOrdersDisplay();
@@ -328,8 +372,8 @@ class SurplusFoodApp {
         // Update display
         this.updateDisplay();
         
-        // Go back to home page
-        this.showPage('home');
+        // Go back to restaurants page
+        this.showPage('restaurants');
     }
 
     /**
@@ -337,124 +381,101 @@ class SurplusFoodApp {
      */
     updateRestaurantDisplay() {
         const container = document.getElementById('restaurantList');
-        let foodItems = this.foodManager.getAvailableFoodItems();
+        const restaurants = this.getRestaurantsFromFood();
 
         // Apply search filter
+        let filteredRestaurants = restaurants;
         if (this.searchQuery) {
-            foodItems = foodItems.filter(food => 
-                food.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                food.restaurantName.toLowerCase().includes(this.searchQuery.toLowerCase())
+            filteredRestaurants = restaurants.filter(restaurant => 
+                restaurant.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                restaurant.location.toLowerCase().includes(this.searchQuery.toLowerCase())
             );
         }
 
         // Apply type filter
         if (this.currentFilter !== 'all') {
-            foodItems = foodItems.filter(food => food.type === this.currentFilter);
+            filteredRestaurants = filteredRestaurants.filter(restaurant => 
+                restaurant.foodItems.some(food => food.type === this.currentFilter)
+            );
         }
-
-        // Sort by safety score and time urgency
-        foodItems = foodItems
-            .filter(food => food.safetyScore && food.safetyScore.letterGrade !== 'F')
-            .sort((a, b) => {
-                const safetyDiff = b.safetyScore.score - a.safetyScore.score;
-                if (Math.abs(safetyDiff) > 10) return safetyDiff;
-                return a.getTimeUntilExpiration() - b.getTimeUntilExpiration();
-            });
 
         container.innerHTML = '';
 
-        if (foodItems.length === 0) {
-            container.innerHTML = '<div class="no-items">No food items available</div>';
+        if (filteredRestaurants.length === 0) {
+            container.innerHTML = '<div class="no-items">No restaurants available</div>';
             return;
         }
 
-        foodItems.forEach(food => {
-            const restaurantCard = this.createRestaurantCard(food);
+        filteredRestaurants.forEach(restaurant => {
+            const restaurantCard = this.createRestaurantCard(restaurant);
             container.appendChild(restaurantCard);
         });
     }
 
     /**
      * Create restaurant card for main page
-     * @param {FoodItem} food - Food item
+     * @param {Object} restaurant - Restaurant object
      * @returns {HTMLElement} Restaurant card element
      */
-    createRestaurantCard(food) {
+    createRestaurantCard(restaurant) {
         const card = document.createElement('div');
         card.className = 'restaurant-card';
         
-        const safetyScore = food.safetyScore;
-        const safetyClass = safetyScore ? safetyScore.letterGrade : 'unknown';
-        const safetyText = safetyScore ? safetyScore.letterGrade : '?';
-        const timeLeft = food.getTimeUntilExpiration();
+        const avgSafetyScore = this.calculateAverageSafetyScore(restaurant.foodItems);
+        const safetyScoreClass = this.getSafetyScoreClass(avgSafetyScore.score);
+        const safetyScoreText = Math.round(avgSafetyScore.score);
         
-        // Get food type icon
-        const getFoodTypeIcon = (type) => {
-            switch(type) {
-                case 'hot': return 'fas fa-fire';
-                case 'cold': return 'fas fa-snowflake';
-                case 'frozen': return 'fas fa-icicles';
-                default: return 'fas fa-utensils';
-            }
-        };
+        // Get restaurant image (use first food item's image)
+        const restaurantImage = restaurant.foodItems[0]?.image || this.getDefaultFoodImage('hot');
         
-        // Get food type emoji
-        const getFoodTypeEmoji = (type) => {
-            switch(type) {
-                case 'hot': return '🔥';
-                case 'cold': return '❄️';
-                case 'frozen': return '🧊';
-                default: return '🍽️';
-            }
-        };
+        // Count food types
+        const typeCounts = {};
+        restaurant.foodItems.forEach(food => {
+            typeCounts[food.type] = (typeCounts[food.type] || 0) + 1;
+        });
         
-        // Check if food is urgent (less than 1 hour left)
-        const isUrgent = timeLeft <= 1;
-        const urgentClass = isUrgent ? 'urgent' : '';
+        const typeText = Object.entries(typeCounts)
+            .map(([type, count]) => `${count} ${type}`)
+            .join(', ');
         
         card.innerHTML = `
-            <div class="food-image ${urgentClass}" style="background-image: url('${food.image || this.getDefaultFoodImage(food.type)}')">
-                <div class="food-type-badge ${food.type}">
-                    <i class="${getFoodTypeIcon(food.type)}"></i>
-                    ${food.type.toUpperCase()}
-                </div>
-                <div class="safety-score-badge ${safetyClass}">${safetyText}</div>
-                ${isUrgent ? '<div class="urgent-badge">URGENT</div>' : ''}
+            <div class="food-image" style="background-image: url('${restaurantImage}')">
+                <div class="safety-score-badge ${safetyScoreClass}">${safetyScoreText}</div>
             </div>
             
             <div class="restaurant-content">
                 <div class="restaurant-header">
-                    <div class="restaurant-name">${food.restaurantName}</div>
-                    <div class="food-name">${food.name}</div>
+                    <div class="restaurant-name">${restaurant.name}</div>
+                    <div class="food-name">${restaurant.location}</div>
                 </div>
                 
                 <div class="restaurant-info">
                     <div class="food-type">
-                        <i class="${getFoodTypeIcon(food.type)}"></i>
-                        ${food.type.toUpperCase()}
+                        <i class="fas fa-utensils"></i>
+                        ${restaurant.foodItems.length} items
                     </div>
                     <div class="time-left">
-                        <i class="fas fa-clock"></i>
-                        ${timeLeft.toFixed(1)}h left
+                        <i class="fas fa-shield-alt"></i>
+                        Safety: ${safetyScoreText}/100
                     </div>
                 </div>
                 
                 <div class="food-details">
                     <div class="temperature">
-                        <i class="fas fa-thermometer-half"></i>
-                        ${food.temperature}°F
+                        <i class="fas fa-tags"></i>
+                        ${typeText}
                     </div>
                     <div class="age">
                         <i class="fas fa-clock"></i>
-                        ${food.preparationTime}h old
+                        Fresh items available
                     </div>
                 </div>
             </div>
         `;
         
-        // Add click handler for food details
+        // Add click handler to go to restaurant menu
         card.addEventListener('click', () => {
-            this.showFoodDetails(food);
+            this.showRestaurantMenu(restaurant);
         });
         
         return card;
@@ -472,6 +493,119 @@ class SurplusFoodApp {
             frozen: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop&crop=center'
         };
         return defaultImages[type] || defaultImages.hot;
+    }
+
+    /**
+     * Get safety score class based on numerical score
+     * @param {number} score - Safety score (0-100)
+     * @returns {string} CSS class name
+     */
+    getSafetyScoreClass(score) {
+        if (score >= 80) return 'high';
+        if (score >= 60) return 'medium';
+        return 'low';
+    }
+
+    /**
+     * Get freshness indicator class based on time remaining
+     * @param {number} timeLeft - Time left in hours
+     * @returns {string} CSS class name
+     */
+    getFreshnessClass(timeLeft) {
+        if (timeLeft >= 2) return 'fresh';
+        if (timeLeft >= 1) return 'warning';
+        return 'expired';
+    }
+
+    /**
+     * Show restaurant menu
+     * @param {Object} restaurant - Restaurant object
+     */
+    showRestaurantMenu(restaurant) {
+        this.currentRestaurant = restaurant;
+        
+        // Update menu header
+        document.getElementById('menuRestaurantName').textContent = restaurant.name;
+        document.getElementById('menuRestaurantLocation').textContent = restaurant.location;
+        
+        // Show menu page
+        this.showPage('menu');
+    }
+
+    /**
+     * Update menu display
+     */
+    updateMenuDisplay() {
+        if (!this.currentRestaurant) return;
+        
+        const container = document.getElementById('menuItems');
+        let foodItems = this.currentRestaurant.foodItems;
+
+        // Apply category filter
+        if (this.currentMenuCategory !== 'all') {
+            foodItems = foodItems.filter(food => food.type === this.currentMenuCategory);
+        }
+
+        container.innerHTML = '';
+
+        if (foodItems.length === 0) {
+            container.innerHTML = '<div class="no-items">No items available in this category</div>';
+            return;
+        }
+
+        foodItems.forEach(food => {
+            const menuItem = this.createMenuItem(food);
+            container.appendChild(menuItem);
+        });
+    }
+
+    /**
+     * Create menu item
+     * @param {FoodItem} food - Food item
+     * @returns {HTMLElement} Menu item element
+     */
+    createMenuItem(food) {
+        const item = document.createElement('div');
+        item.className = 'menu-item';
+        
+        const safetyScore = food.safetyScore;
+        const safetyScoreText = safetyScore ? Math.round(safetyScore.score) : 0;
+        const safetyScoreClass = this.getSafetyScoreClass(safetyScoreText);
+        
+        const timeLeft = food.getTimeUntilExpiration();
+        const freshnessClass = this.getFreshnessClass(timeLeft);
+        
+        item.innerHTML = `
+            <div class="menu-item-header">
+                <h3 class="menu-item-name">${food.name}</h3>
+                <div class="freshness-indicator ${freshnessClass}"></div>
+            </div>
+            
+            <div class="menu-item-details">
+                <div class="menu-item-stats">
+                    <div class="menu-item-stat">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>${food.temperature}°F</span>
+                    </div>
+                    <div class="menu-item-stat">
+                        <i class="fas fa-clock"></i>
+                        <span>${food.preparationTime}h old</span>
+                    </div>
+                    <div class="menu-item-stat">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span>${timeLeft.toFixed(1)}h left</span>
+                    </div>
+                </div>
+                <div class="safety-score-numeric ${safetyScoreClass}">${safetyScoreText}</div>
+            </div>
+        `;
+        
+        // Add click handler for food details
+        item.addEventListener('click', () => {
+            this.showFoodDetails(food);
+        });
+        
+        return item;
     }
 
     /**
@@ -515,7 +649,8 @@ class SurplusFoodApp {
         
         // Populate modal with food data
         const safetyScore = food.safetyScore;
-        const safetyClass = safetyScore ? safetyScore.letterGrade : 'unknown';
+        const safetyScoreText = safetyScore ? Math.round(safetyScore.score) : 0;
+        const safetyScoreClass = this.getSafetyScoreClass(safetyScoreText);
         const timeLeft = food.getTimeUntilExpiration();
         
         modal.querySelector('.food-detail-image').style.backgroundImage = 
@@ -536,7 +671,7 @@ class SurplusFoodApp {
             </div>
             <div class="stat-item">
                 <i class="fas fa-shield-alt"></i>
-                <span class="safety-score ${safetyClass}">${safetyClass}</span>
+                <span class="safety-score-numeric ${safetyScoreClass}">${safetyScoreText}/100</span>
             </div>
             <div class="stat-item">
                 <i class="fas fa-hourglass-half"></i>
