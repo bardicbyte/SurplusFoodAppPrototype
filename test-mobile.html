@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Mobile Test - Surplus Food App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .test-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .test-description {
+            color: #666;
+            font-size: 14px;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .status.pass { background: #d4edda; color: #155724; }
+        .status.fail { background: #f8d7da; color: #721c24; }
+        .status.pending { background: #fff3cd; color: #856404; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>📱 Mobile App Test</h1>
+        <p>Testing mobile responsiveness and functionality</p>
+        
+        <div class="test-item">
+            <div class="test-title">Viewport Configuration</div>
+            <div class="test-description">Check if viewport meta tag is properly set for mobile</div>
+            <div class="status pass">✓ PASS</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Sidebar Navigation</div>
+            <div class="test-description">Test hamburger menu and sidebar functionality</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Touch Interactions</div>
+            <div class="test-description">Verify buttons and cards respond to touch</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Restaurant Cards</div>
+            <div class="test-description">Check if food cards display like Uber Eats</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Safety Score Display</div>
+            <div class="test-description">Verify A-F safety scores are visible and colored</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Search & Filter</div>
+            <div class="test-description">Test search bar and filter buttons</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Form Input</div>
+            <div class="test-description">Check if forms are mobile-friendly</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div class="test-item">
+            <div class="test-title">Page Navigation</div>
+            <div class="test-description">Test switching between different pages</div>
+            <div class="status pending">⏳ PENDING</div>
+        </div>
+        
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="index.html" style="background: #667eea; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+                🚀 Open Main App
+            </a>
+        </div>
+    </div>
+</body>
+</html>

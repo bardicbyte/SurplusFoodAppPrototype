@@ -1,0 +1,32 @@
+{
+  "name": "surplus-food-app-prototype",
+  "version": "1.0.0",
+  "description": "A modular web application that matches surplus food with people who need it, featuring a comprehensive safety scoring system",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "test": "node js/tests/safetyScore.test.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "surplus-food",
+    "food-waste",
+    "safety-scoring",
+    "matching-algorithm",
+    "javascript",
+    "prototype"
+  ],
+  "author": "Surplus Food App Team",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/surplus-food-app-prototype.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/surplus-food-app-prototype/issues"
+  },
+  "homepage": "https://github.com/your-username/surplus-food-app-prototype#readme"
+}
