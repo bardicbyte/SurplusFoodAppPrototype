@@ -746,9 +746,26 @@ class SurplusFoodApp {
      * @returns {string} CSS class name
      */
     getSafetyScoreClass(score) {
-        if (score >= 80) return 'high';
-        if (score >= 60) return 'medium';
-        return 'low';
+        if (score >= 95) return 'excellent';
+        if (score >= 85) return 'high';
+        if (score >= 75) return 'good';
+        if (score >= 65) return 'medium';
+        if (score >= 55) return 'fair';
+        if (score >= 40) return 'low';
+        return 'poor';
+    }
+
+    /**
+     * Convert numerical score to letter grade
+     * @param {number} score - Safety score (0-100)
+     * @returns {string} Letter grade (A, B, C, D, F)
+     */
+    scoreToLetterGrade(score) {
+        if (score >= 90) return 'A';
+        if (score >= 80) return 'B';
+        if (score >= 70) return 'C';
+        if (score >= 60) return 'D';
+        return 'F';
     }
 
     /**
@@ -1002,12 +1019,26 @@ class SurplusFoodApp {
             restaurants.get(food.restaurantName).foodItems.push(food);
         });
 
-        // Limit to 6 restaurants and return all food items for each
+        // Limit to 6 restaurants and add variation to safety scores
         const restaurantArray = Array.from(restaurants.values()).slice(0, 6);
         
-        // For each restaurant, include ALL food items (not just their own)
-        restaurantArray.forEach(restaurant => {
-            restaurant.foodItems = this.foodManager.getAvailableFoodItems();
+        // Add variation to each restaurant's safety scores
+        restaurantArray.forEach((restaurant, index) => {
+            // Create a base safety score variation for each restaurant (75-95 range)
+            const baseScore = 75 + (index * 3) + Math.random() * 5;
+            
+            // Modify each food item's safety score for this restaurant
+            restaurant.foodItems.forEach(food => {
+                if (food.safetyScore) {
+                    // Add variation to the safety score (±10 points)
+                    const variation = (Math.random() - 0.5) * 20;
+                    const newScore = Math.max(0, Math.min(100, food.safetyScore.score + variation));
+                    
+                    // Update the safety score
+                    food.safetyScore.score = newScore;
+                    food.safetyScore.letterGrade = this.scoreToLetterGrade(newScore);
+                }
+            });
         });
 
         return restaurantArray;

@@ -1294,6 +1294,15 @@ p {
 .safety-score-numeric.medium { background: linear-gradient(135deg, #FFC107, #FFB300); }
 .safety-score-numeric.low { background: linear-gradient(135deg, #F44336, #E53935); }
 
+/* Enhanced safety score colors with more variation */
+.safety-score-badge.excellent { background: linear-gradient(135deg, #2E7D32, #388E3C); }
+.safety-score-badge.high { background: linear-gradient(135deg, #4CAF50, #45a049); }
+.safety-score-badge.good { background: linear-gradient(135deg, #8BC34A, #7CB342); }
+.safety-score-badge.medium { background: linear-gradient(135deg, #FFC107, #FFB300); }
+.safety-score-badge.fair { background: linear-gradient(135deg, #FF9800, #F57C00); }
+.safety-score-badge.low { background: linear-gradient(135deg, #F44336, #E53935); }
+.safety-score-badge.poor { background: linear-gradient(135deg, #D32F2F, #C62828); }
+
 /* Help Icons and Tooltips */
 .help-icon {
     color: #667eea;
