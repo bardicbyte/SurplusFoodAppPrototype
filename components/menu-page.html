@@ -1,5 +1,5 @@
 <!-- Restaurant Menu Page -->
-<div class="page" id="menuPage">
+<div class="page" id="menuPage" data-page="menu">
     <div class="menu-header">
         <button class="back-btn" id="backToRestaurants">
             <i class="fas fa-arrow-left"></i>
@@ -16,6 +16,17 @@
             <button class="category-btn" data-category="hot">Hot Food</button>
             <button class="category-btn" data-category="cold">Cold Food</button>
             <button class="category-btn" data-category="frozen">Frozen Food</button>
+        </div>
+        
+        <div class="help-section">
+            <div class="help-item">
+                <i class="fas fa-shield-alt"></i>
+                <span><strong>Safety Score:</strong> Community-based rating calculated from user reviews, hygiene standards, and other factors. Higher scores = more trusted restaurant.</span>
+            </div>
+            <div class="help-item">
+                <i class="fas fa-clock"></i>
+                <span><strong>Freshness Score:</strong> Restaurant-specific rating for each menu item. Shorter times = bigger discounts!</span>
+            </div>
         </div>
         
         <div id="menuItems" class="menu-items"></div>

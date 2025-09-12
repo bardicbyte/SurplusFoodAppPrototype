@@ -11,6 +11,19 @@ class FoodItem {
         this.preparationTime = data.preparationTime; // hours since preparation
         this.temperature = data.temperature; // current temperature in °F
         this.location = data.location || 'Unknown';
+        // Generate random original price between $1-$20 if not provided
+        this.originalPrice = data.originalPrice || Math.floor(Math.random() * 20) + 1;
+        
+        // Generate random discount between 20-30% if not provided
+        if (data.discountedPrice === undefined) {
+            const discountPercent = Math.random() * 10 + 20; // 20-30%
+            this.discountedPrice = Math.round((this.originalPrice * (1 - discountPercent / 100)) * 100) / 100;
+            console.log(`Generated random prices for ${this.name}: $${this.originalPrice} -> $${this.discountedPrice} (${Math.round(discountPercent)}% off)`);
+        } else {
+            this.discountedPrice = data.discountedPrice;
+        }
+        this.description = data.description || '';
+        this.image = data.image || '';
         this.createdAt = new Date();
         this.isAvailable = true;
         this.safetyScore = null;

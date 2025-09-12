@@ -15,6 +15,7 @@ class SurplusFoodApp {
         this.searchQuery = '';
         this.currentRestaurant = null;
         this.currentMenuCategory = 'all';
+        this.cart = [];
         
         this.init();
     }
@@ -171,7 +172,15 @@ class SurplusFoodApp {
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
         });
-        document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+        
+        // Find the target page element
+        const targetPage = document.querySelector(`[data-page="${pageName}"]`);
+        if (targetPage) {
+            targetPage.classList.add('active');
+        } else {
+            console.error(`Page with data-page="${pageName}" not found`);
+            return;
+        }
 
         // Update page content
         this.updatePageContent(pageName);
@@ -208,8 +217,9 @@ class SurplusFoodApp {
      * Load sample data for demonstration
      */
     loadSampleData() {
-        // Sample food items with more restaurant variety and beautiful images
+        // Sample food items with base64 encoded images
         const sampleFood = [
+            // Hot Food Items - High savings to show surplus value
             {
                 name: 'Chicken Alfredo Pasta',
                 restaurantName: 'Mama Mia Restaurant',
@@ -217,28 +227,8 @@ class SurplusFoodApp {
                 preparationTime: 1.5,
                 temperature: 145,
                 location: 'Downtown',
-                image: 'https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop&crop=center',
+                image: foodImages.pasta,
                 description: 'Creamy alfredo sauce with tender chicken over perfectly cooked pasta'
-            },
-            {
-                name: 'Caesar Salad',
-                restaurantName: 'Green Garden Cafe',
-                type: 'cold',
-                preparationTime: 0.5,
-                temperature: 38,
-                location: 'Midtown',
-                image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop&crop=center',
-                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
-            },
-            {
-                name: 'Chocolate Ice Cream',
-                restaurantName: 'Sweet Treats',
-                type: 'frozen',
-                preparationTime: 2,
-                temperature: 15,
-                location: 'Uptown',
-                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop&crop=center',
-                description: 'Rich and creamy chocolate ice cream with chocolate chips'
             },
             {
                 name: 'Beef Stir Fry',
@@ -247,7 +237,7 @@ class SurplusFoodApp {
                 preparationTime: 3.5,
                 temperature: 120,
                 location: 'Eastside',
-                image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop&crop=center',
+                image: foodImages.teriyaki,
                 description: 'Tender beef strips with fresh vegetables in savory sauce'
             },
             {
@@ -257,18 +247,8 @@ class SurplusFoodApp {
                 preparationTime: 2.5,
                 temperature: 135,
                 location: 'Westside',
-                image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=300&fit=crop&crop=center',
-                description: 'Classic pizza with fresh mozzarella, tomatoes, and basil'
-            },
-            {
-                name: 'Fresh Fruit Bowl',
-                restaurantName: 'Healthy Bites',
-                type: 'cold',
-                preparationTime: 1,
-                temperature: 40,
-                location: 'Downtown',
-                image: 'https://images.unsplash.com/photo-1553530979-4c4b2a0a0a0a?w=400&h=300&fit=crop&crop=center',
-                description: 'Seasonal fresh fruits including berries, melon, and citrus'
+                image: foodImages.pizza,
+                description: 'Classic pizza with fresh mozzarella, tomatoes, and basil',
             },
             {
                 name: 'Fish & Chips',
@@ -277,18 +257,8 @@ class SurplusFoodApp {
                 preparationTime: 4,
                 temperature: 110,
                 location: 'Old Town',
-                image: 'https://images.unsplash.com/photo-1544982503-9f984c14501a?w=400&h=300&fit=crop&crop=center',
+                image: foodImages.fishChips,
                 description: 'Crispy battered fish with golden chips and mushy peas'
-            },
-            {
-                name: 'Vanilla Ice Cream',
-                restaurantName: 'Sweet Treats',
-                type: 'frozen',
-                preparationTime: 1.5,
-                temperature: 20,
-                location: 'Uptown',
-                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop&crop=center',
-                description: 'Smooth vanilla ice cream with real vanilla bean specks'
             },
             {
                 name: 'Chicken Teriyaki Bowl',
@@ -297,8 +267,60 @@ class SurplusFoodApp {
                 preparationTime: 2,
                 temperature: 140,
                 location: 'Chinatown',
-                image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop&crop=center',
+                image: foodImages.teriyaki,
                 description: 'Grilled chicken with teriyaki sauce over steamed rice'
+            },
+            {
+                name: 'Grilled Salmon',
+                restaurantName: 'Ocean Breeze',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 150,
+                location: 'Harbor District',
+                image: foodImages.salmon,
+                description: 'Fresh Atlantic salmon with herbs and lemon'
+            },
+            {
+                name: 'BBQ Ribs',
+                restaurantName: 'Smokehouse Grill',
+                type: 'hot',
+                preparationTime: 3,
+                temperature: 160,
+                location: 'Downtown',
+                image: foodImages.teriyaki,
+                description: 'Slow-cooked ribs with tangy BBQ sauce'
+            },
+            {
+                name: 'Chicken Wings',
+                restaurantName: 'Sports Bar',
+                type: 'hot',
+                preparationTime: 1.5,
+                temperature: 155,
+                location: 'Midtown',
+                image: foodImages.teriyaki,
+                description: 'Crispy wings with buffalo sauce'
+            },
+            
+            // Cold Food Items - Good savings on fresh items
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'Green Garden Cafe',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Midtown',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
+            },
+            {
+                name: 'Fresh Fruit Bowl',
+                restaurantName: 'Healthy Bites',
+                type: 'cold',
+                preparationTime: 1,
+                temperature: 40,
+                location: 'Downtown',
+                image: foodImages.fruitBowl,
+                description: 'Seasonal fresh fruits including berries, melon, and citrus'
             },
             {
                 name: 'Mediterranean Wrap',
@@ -307,8 +329,90 @@ class SurplusFoodApp {
                 preparationTime: 0.8,
                 temperature: 42,
                 location: 'Riverside',
-                image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&crop=center',
+                image: foodImages.wrap,
                 description: 'Fresh vegetables, hummus, and feta in a soft tortilla wrap'
+            },
+            {
+                name: 'Greek Yogurt Parfait',
+                restaurantName: 'Healthy Bites',
+                type: 'cold',
+                preparationTime: 0.3,
+                temperature: 35,
+                location: 'Downtown',
+                image: foodImages.yogurt,
+                description: 'Layered yogurt with fresh berries and granola'
+            },
+            {
+                name: 'Quinoa Bowl',
+                restaurantName: 'Green Garden Cafe',
+                type: 'cold',
+                preparationTime: 1.2,
+                temperature: 45,
+                location: 'Midtown',
+                image: foodImages.salad,
+                description: 'Nutritious quinoa with roasted vegetables and tahini dressing'
+            },
+            {
+                name: 'Turkey Sandwich',
+                restaurantName: 'Sunshine Cafe',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 40,
+                location: 'Riverside',
+                image: foodImages.wrap,
+                description: 'Fresh turkey with lettuce, tomato, and mayo on artisan bread'
+            },
+            
+            // Frozen Food Items - Great savings on desserts
+            {
+                name: 'Chocolate Ice Cream',
+                restaurantName: 'Sweet Treats',
+                type: 'frozen',
+                preparationTime: 2,
+                temperature: 15,
+                location: 'Uptown',
+                image: foodImages.iceCream,
+                description: 'Rich and creamy chocolate ice cream with chocolate chips'
+            },
+            {
+                name: 'Vanilla Ice Cream',
+                restaurantName: 'Sweet Treats',
+                type: 'frozen',
+                preparationTime: 1.5,
+                temperature: 20,
+                location: 'Uptown',
+                image: foodImages.iceCream,
+                description: 'Smooth vanilla ice cream with real vanilla bean specks'
+            },
+            {
+                name: 'Strawberry Cheesecake',
+                restaurantName: 'Sweet Treats',
+                type: 'frozen',
+                preparationTime: 3,
+                temperature: 25,
+                location: 'Uptown',
+                image: foodImages.cheesecake,
+                description: 'Creamy cheesecake with fresh strawberry topping'
+            },
+            {
+                name: 'Chocolate Cake',
+                restaurantName: 'Sweet Treats',
+                type: 'frozen',
+                preparationTime: 2.5,
+                temperature: 18,
+                location: 'Uptown',
+                image: foodImages.cheesecake,
+                description: 'Rich chocolate cake with chocolate ganache'
+            },
+            {
+                name: 'Frozen Yogurt',
+                restaurantName: 'Healthy Bites',
+                type: 'frozen',
+                preparationTime: 1,
+                temperature: 22,
+                location: 'Downtown',
+                image: foodImages.yogurt,
+                description: 'Creamy frozen yogurt with fresh fruit toppings'
             }
         ];
 
@@ -345,6 +449,7 @@ class SurplusFoodApp {
         samplePeople.forEach(personData => {
             this.personManager.addPerson(personData);
         });
+
     }
 
     /**
@@ -425,7 +530,7 @@ class SurplusFoodApp {
         const safetyScoreClass = this.getSafetyScoreClass(avgSafetyScore.score);
         const safetyScoreText = Math.round(avgSafetyScore.score);
         
-        // Get restaurant image (use first food item's image)
+        // Get restaurant image (use first food item's image or default)
         const restaurantImage = restaurant.foodItems[0]?.image || this.getDefaultFoodImage('hot');
         
         // Count food types
@@ -439,7 +544,9 @@ class SurplusFoodApp {
             .join(', ');
         
         card.innerHTML = `
-            <div class="food-image" style="background-image: url('${restaurantImage}')">
+            <div class="food-image">
+                <img src="${restaurantImage}" alt="Restaurant food" class="food-emoji" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="food-emoji" style="display:none; font-size: clamp(60px, 15vw, 120px); line-height: 1; text-align: center;">🍽️</div>
                 <div class="safety-score-badge ${safetyScoreClass}">${safetyScoreText}</div>
             </div>
             
@@ -488,11 +595,149 @@ class SurplusFoodApp {
      */
     getDefaultFoodImage(type) {
         const defaultImages = {
-            hot: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop&crop=center',
-            cold: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop&crop=center',
-            frozen: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=400&h=300&fit=crop&crop=center'
+            hot: foodImages.pasta,
+            cold: foodImages.salad,
+            frozen: foodImages.iceCream
         };
         return defaultImages[type] || defaultImages.hot;
+    }
+
+    /**
+     * Calculate discounted price based on freshness
+     * @param {Object} food - Food item
+     * @returns {Object} Price information with original and discounted prices
+     */
+    calculateDiscountedPrice(food) {
+        const originalPrice = food.originalPrice || 0;
+        const discountedPrice = food.discountedPrice || originalPrice;
+        const timeLeft = food.getTimeUntilExpiration();
+        
+        console.log(`DEBUG: Food ${food.name} - originalPrice: ${originalPrice}, discountedPrice: ${discountedPrice}`);
+        
+        // Calculate discount percentage from hardcoded prices
+        const discountPercent = originalPrice > 0 ? Math.round(((originalPrice - discountedPrice) / originalPrice) * 100) : 0;
+        
+        return {
+            original: originalPrice,
+            discounted: discountedPrice,
+            discountPercent: discountPercent,
+            timeLeft: timeLeft
+        };
+    }
+
+    /**
+     * Add item to cart with freshness warning
+     * @param {Object} food - Food item to add
+     */
+    addToCart(food) {
+        const priceInfo = this.calculateDiscountedPrice(food);
+        
+        // Check if item is too old and show warning
+        if (priceInfo.timeLeft <= 0) {
+            this.showWarning('This item has expired and may not be safe to consume. Are you sure you want to add it to your cart?', () => {
+                this.addToCartConfirmed(food, priceInfo);
+            });
+        } else if (priceInfo.timeLeft <= 1) {
+            this.showWarning('This item expires very soon (within 1 hour). Are you sure you want to add it to your cart?', () => {
+                this.addToCartConfirmed(food, priceInfo);
+            });
+        } else {
+            this.addToCartConfirmed(food, priceInfo);
+        }
+    }
+
+    /**
+     * Confirm adding item to cart
+     * @param {Object} food - Food item
+     * @param {Object} priceInfo - Price information
+     */
+    addToCartConfirmed(food, priceInfo) {
+        const cartItem = {
+            ...food,
+            cartPrice: priceInfo.discounted,
+            originalPrice: priceInfo.original,
+            discountPercent: priceInfo.discountPercent,
+            addedAt: new Date()
+        };
+        
+        this.cart.push(cartItem);
+        this.showNotification(`${food.name} added to cart for $${priceInfo.discounted.toFixed(2)}!`);
+        this.updateCartDisplay();
+    }
+
+    /**
+     * Show warning modal
+     * @param {string} message - Warning message
+     * @param {Function} onConfirm - Callback for confirm action
+     */
+    showWarning(message, onConfirm) {
+        // Create warning modal
+        let modal = document.getElementById('warningModal');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'warningModal';
+            modal.className = 'warning-modal';
+            modal.innerHTML = `
+                <div class="modal-overlay" id="warningOverlay"></div>
+                <div class="modal-content">
+                    <div class="warning-icon">⚠️</div>
+                    <h3>Warning</h3>
+                    <p id="warningMessage"></p>
+                    <div class="warning-buttons">
+                        <button class="btn btn-secondary" id="cancelWarning">Cancel</button>
+                        <button class="btn btn-primary" id="confirmWarning">Add to Cart</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // Add event listeners
+            document.getElementById('cancelWarning').addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            document.getElementById('confirmWarning').addEventListener('click', () => {
+                modal.style.display = 'none';
+                onConfirm();
+            });
+            document.getElementById('warningOverlay').addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+        }
+        
+        document.getElementById('warningMessage').textContent = message;
+        modal.style.display = 'flex';
+    }
+
+    /**
+     * Show notification
+     * @param {string} message - Notification message
+     */
+    showNotification(message) {
+        // Create notification
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => notification.classList.add('show'), 100);
+        
+        // Hide notification after 3 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    /**
+     * Update cart display
+     */
+    updateCartDisplay() {
+        // This would update a cart icon or counter
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+            cartCount.textContent = this.cart.length;
+        }
     }
 
     /**
@@ -575,10 +820,16 @@ class SurplusFoodApp {
         const timeLeft = food.getTimeUntilExpiration();
         const freshnessClass = this.getFreshnessClass(timeLeft);
         
+        // Calculate pricing
+        const priceInfo = this.calculateDiscountedPrice(food);
+        
         item.innerHTML = `
             <div class="menu-item-header">
                 <h3 class="menu-item-name">${food.name}</h3>
-                <div class="freshness-indicator ${freshnessClass}"></div>
+                <div class="freshness-container">
+                    <div class="freshness-indicator ${freshnessClass}" title="Freshness Level: ${freshnessClass === 'fresh' ? 'Fresh' : freshnessClass === 'warning' ? 'Expiring Soon' : 'Expired'}"></div>
+                    <i class="fas fa-question-circle help-icon" title="Freshness Status: Green = Fresh, Yellow = Expiring Soon, Red = Expired. Set by restaurant for each item."></i>
+                </div>
             </div>
             
             <div class="menu-item-details">
@@ -594,15 +845,43 @@ class SurplusFoodApp {
                     <div class="menu-item-stat">
                         <i class="fas fa-hourglass-half"></i>
                         <span>${timeLeft.toFixed(1)}h left</span>
+                        <i class="fas fa-question-circle help-icon" title="Restaurant-specific freshness rating for this menu item. Shorter times mean bigger discounts!"></i>
                     </div>
                 </div>
-                <div class="safety-score-numeric ${safetyScoreClass}">${safetyScoreText}</div>
+                <div class="safety-score-container">
+                    <div class="safety-score-numeric ${safetyScoreClass}">${safetyScoreText}</div>
+                    <i class="fas fa-question-circle help-icon" title="Safety Score (0-100): Community-based rating from user reviews, hygiene standards, and other factors. Higher scores = more trusted restaurant."></i>
+                </div>
+            </div>
+            
+            <div class="menu-item-pricing">
+                <div class="price-info">
+                    ${priceInfo.discountPercent > 0 ? `
+                        <div class="original-price">$${priceInfo.original.toFixed(2)}</div>
+                        <div class="discounted-price">$${priceInfo.discounted.toFixed(2)}</div>
+                        <div class="savings-info">
+                            <div class="discount-badge">${priceInfo.discountPercent}% OFF</div>
+                            <div class="you-save">You save $${(priceInfo.original - priceInfo.discounted).toFixed(2)}!</div>
+                        </div>
+                    ` : `
+                        <div class="regular-price">$${priceInfo.original.toFixed(2)}</div>
+                    `}
+                </div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); window.surplusFoodApp.addToCart(this.foodData)">
+                    <i class="fas fa-shopping-cart"></i>
+                    Add to Cart
+                </button>
             </div>
         `;
         
-        // Add click handler for food details
-        item.addEventListener('click', () => {
-            this.showFoodDetails(food);
+        // Store food data for the button
+        item.querySelector('.add-to-cart-btn').foodData = food;
+        
+        // Add click handler for food details (but not on the button)
+        item.addEventListener('click', (e) => {
+            if (!e.target.closest('.add-to-cart-btn')) {
+                this.showFoodDetails(food);
+            }
         });
         
         return item;
@@ -653,8 +932,10 @@ class SurplusFoodApp {
         const safetyScoreClass = this.getSafetyScoreClass(safetyScoreText);
         const timeLeft = food.getTimeUntilExpiration();
         
-        modal.querySelector('.food-detail-image').style.backgroundImage = 
-            `url('${food.image || this.getDefaultFoodImage(food.type)}')`;
+        const foodImage = food.image || this.getDefaultFoodImage(food.type);
+        modal.querySelector('.food-detail-image').innerHTML = 
+            `<img src="${foodImage}" alt="${food.name}" class="food-emoji" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+             <div class="food-emoji" style="display:none; font-size: clamp(60px, 15vw, 120px); line-height: 1; text-align: center;">🍽️</div>`;
         modal.querySelector('.food-detail-title').textContent = food.name;
         modal.querySelector('.food-detail-restaurant').textContent = food.restaurantName;
         modal.querySelector('.food-detail-description').textContent = 
@@ -721,7 +1002,15 @@ class SurplusFoodApp {
             restaurants.get(food.restaurantName).foodItems.push(food);
         });
 
-        return Array.from(restaurants.values());
+        // Limit to 6 restaurants and return all food items for each
+        const restaurantArray = Array.from(restaurants.values()).slice(0, 6);
+        
+        // For each restaurant, include ALL food items (not just their own)
+        restaurantArray.forEach(restaurant => {
+            restaurant.foodItems = this.foodManager.getAvailableFoodItems();
+        });
+
+        return restaurantArray;
     }
 
     /**
@@ -916,4 +1205,17 @@ class SurplusFoodApp {
 // Initialize the app when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.surplusFoodApp = new SurplusFoodApp();
+    
+    // Test random price generation
+    console.log('=== TESTING RANDOM PRICE GENERATION ===');
+    const testFood = new FoodItem({
+        name: 'Test Item',
+        restaurantName: 'Test Restaurant',
+        type: 'hot',
+        preparationTime: 1,
+        temperature: 100
+    });
+    console.log('Test food item:', testFood);
+    console.log('Original Price:', testFood.originalPrice);
+    console.log('Discounted Price:', testFood.discountedPrice);
 });
