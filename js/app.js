@@ -231,6 +231,46 @@ class SurplusFoodApp {
                 description: 'Creamy alfredo sauce with tender chicken over perfectly cooked pasta'
             },
             {
+                name: 'Spaghetti Carbonara',
+                restaurantName: 'Mama Mia Restaurant',
+                type: 'hot',
+                preparationTime: 2,
+                temperature: 140,
+                location: 'Downtown',
+                image: foodImages.pasta,
+                description: 'Classic Italian pasta with eggs, cheese, and pancetta'
+            },
+            {
+                name: 'Margherita Pizza',
+                restaurantName: 'Mama Mia Restaurant',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 135,
+                location: 'Downtown',
+                image: foodImages.pizza,
+                description: 'Traditional pizza with fresh mozzarella, tomatoes, and basil'
+            },
+            {
+                name: 'Chicken Parmesan',
+                restaurantName: 'Mama Mia Restaurant',
+                type: 'hot',
+                preparationTime: 3,
+                temperature: 150,
+                location: 'Downtown',
+                image: foodImages.pasta,
+                description: 'Breaded chicken breast with marinara sauce and melted cheese'
+            },
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'Mama Mia Restaurant',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Downtown',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
+            },
+            {
                 name: 'Beef Stir Fry',
                 restaurantName: 'Dragon Palace',
                 type: 'hot',
@@ -239,6 +279,46 @@ class SurplusFoodApp {
                 location: 'Eastside',
                 image: foodImages.teriyaki,
                 description: 'Tender beef strips with fresh vegetables in savory sauce'
+            },
+            {
+                name: 'Sweet and Sour Chicken',
+                restaurantName: 'Dragon Palace',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 130,
+                location: 'Eastside',
+                image: foodImages.teriyaki,
+                description: 'Crispy chicken with bell peppers and pineapple in tangy sauce'
+            },
+            {
+                name: 'Vegetable Lo Mein',
+                restaurantName: 'Dragon Palace',
+                type: 'hot',
+                preparationTime: 2,
+                temperature: 125,
+                location: 'Eastside',
+                image: foodImages.teriyaki,
+                description: 'Fresh vegetables and noodles in savory sauce'
+            },
+            {
+                name: 'Kung Pao Shrimp',
+                restaurantName: 'Dragon Palace',
+                type: 'hot',
+                preparationTime: 3,
+                temperature: 135,
+                location: 'Eastside',
+                image: foodImages.teriyaki,
+                description: 'Spicy shrimp with peanuts and vegetables'
+            },
+            {
+                name: 'Spring Rolls',
+                restaurantName: 'Dragon Palace',
+                type: 'cold',
+                preparationTime: 1,
+                temperature: 40,
+                location: 'Eastside',
+                image: foodImages.wrap,
+                description: 'Fresh vegetables wrapped in rice paper with dipping sauce'
             },
             {
                 name: 'Margherita Pizza',
@@ -251,6 +331,46 @@ class SurplusFoodApp {
                 description: 'Classic pizza with fresh mozzarella, tomatoes, and basil',
             },
             {
+                name: 'Pepperoni Pizza',
+                restaurantName: 'Pizza Corner',
+                type: 'hot',
+                preparationTime: 2,
+                temperature: 140,
+                location: 'Westside',
+                image: foodImages.pizza,
+                description: 'Classic pepperoni pizza with mozzarella cheese'
+            },
+            {
+                name: 'BBQ Chicken Pizza',
+                restaurantName: 'Pizza Corner',
+                type: 'hot',
+                preparationTime: 3,
+                temperature: 145,
+                location: 'Westside',
+                image: foodImages.pizza,
+                description: 'Grilled chicken with BBQ sauce, red onions, and cilantro'
+            },
+            {
+                name: 'Veggie Supreme Pizza',
+                restaurantName: 'Pizza Corner',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 130,
+                location: 'Westside',
+                image: foodImages.pizza,
+                description: 'Loaded with bell peppers, mushrooms, onions, and olives'
+            },
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'Pizza Corner',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Westside',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
+            },
+            {
                 name: 'Fish & Chips',
                 restaurantName: 'The British Pub',
                 type: 'hot',
@@ -259,6 +379,46 @@ class SurplusFoodApp {
                 location: 'Old Town',
                 image: foodImages.fishChips,
                 description: 'Crispy battered fish with golden chips and mushy peas'
+            },
+            {
+                name: 'Bangers and Mash',
+                restaurantName: 'The British Pub',
+                type: 'hot',
+                preparationTime: 3,
+                temperature: 125,
+                location: 'Old Town',
+                image: foodImages.teriyaki,
+                description: 'Traditional sausages with creamy mashed potatoes and gravy'
+            },
+            {
+                name: 'Shepherd\'s Pie',
+                restaurantName: 'The British Pub',
+                type: 'hot',
+                preparationTime: 3.5,
+                temperature: 140,
+                location: 'Old Town',
+                image: foodImages.teriyaki,
+                description: 'Ground lamb with vegetables topped with mashed potatoes'
+            },
+            {
+                name: 'Chicken Tikka Masala',
+                restaurantName: 'The British Pub',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 135,
+                location: 'Old Town',
+                image: foodImages.teriyaki,
+                description: 'Tender chicken in creamy tomato curry sauce'
+            },
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'The British Pub',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Old Town',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
             },
             {
                 name: 'Chicken Teriyaki Bowl',
@@ -271,6 +431,46 @@ class SurplusFoodApp {
                 description: 'Grilled chicken with teriyaki sauce over steamed rice'
             },
             {
+                name: 'California Roll',
+                restaurantName: 'Tokyo Express',
+                type: 'cold',
+                preparationTime: 1,
+                temperature: 40,
+                location: 'Chinatown',
+                image: foodImages.wrap,
+                description: 'Crab, avocado, and cucumber roll with sesame seeds'
+            },
+            {
+                name: 'Chicken Ramen',
+                restaurantName: 'Tokyo Express',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 145,
+                location: 'Chinatown',
+                image: foodImages.teriyaki,
+                description: 'Rich chicken broth with noodles, vegetables, and soft-boiled egg'
+            },
+            {
+                name: 'Beef Bulgogi',
+                restaurantName: 'Tokyo Express',
+                type: 'hot',
+                preparationTime: 3,
+                temperature: 130,
+                location: 'Chinatown',
+                image: foodImages.teriyaki,
+                description: 'Marinated beef with vegetables over steamed rice'
+            },
+            {
+                name: 'Miso Soup',
+                restaurantName: 'Tokyo Express',
+                type: 'hot',
+                preparationTime: 1,
+                temperature: 120,
+                location: 'Chinatown',
+                image: foodImages.teriyaki,
+                description: 'Traditional Japanese soup with tofu and seaweed'
+            },
+            {
                 name: 'Grilled Salmon',
                 restaurantName: 'Ocean Breeze',
                 type: 'hot',
@@ -279,6 +479,46 @@ class SurplusFoodApp {
                 location: 'Harbor District',
                 image: foodImages.salmon,
                 description: 'Fresh Atlantic salmon with herbs and lemon'
+            },
+            {
+                name: 'Fish Tacos',
+                restaurantName: 'Ocean Breeze',
+                type: 'hot',
+                preparationTime: 2,
+                temperature: 140,
+                location: 'Harbor District',
+                image: foodImages.wrap,
+                description: 'Grilled fish with cabbage slaw and avocado in soft tortillas'
+            },
+            {
+                name: 'Lobster Roll',
+                restaurantName: 'Ocean Breeze',
+                type: 'cold',
+                preparationTime: 1.5,
+                temperature: 42,
+                location: 'Harbor District',
+                image: foodImages.wrap,
+                description: 'Fresh lobster meat with mayo on a buttered roll'
+            },
+            {
+                name: 'Clam Chowder',
+                restaurantName: 'Ocean Breeze',
+                type: 'hot',
+                preparationTime: 1,
+                temperature: 130,
+                location: 'Harbor District',
+                image: foodImages.teriyaki,
+                description: 'Creamy New England style chowder with fresh clams'
+            },
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'Ocean Breeze',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Harbor District',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
             },
             {
                 name: 'BBQ Ribs',
@@ -291,6 +531,46 @@ class SurplusFoodApp {
                 description: 'Slow-cooked ribs with tangy BBQ sauce'
             },
             {
+                name: 'Brisket Sandwich',
+                restaurantName: 'Smokehouse Grill',
+                type: 'hot',
+                preparationTime: 2.5,
+                temperature: 145,
+                location: 'Downtown',
+                image: foodImages.wrap,
+                description: 'Smoked brisket with BBQ sauce on a brioche bun'
+            },
+            {
+                name: 'Pulled Pork',
+                restaurantName: 'Smokehouse Grill',
+                type: 'hot',
+                preparationTime: 3.5,
+                temperature: 150,
+                location: 'Downtown',
+                image: foodImages.teriyaki,
+                description: 'Slow-smoked pork shoulder with coleslaw'
+            },
+            {
+                name: 'Mac and Cheese',
+                restaurantName: 'Smokehouse Grill',
+                type: 'hot',
+                preparationTime: 1.5,
+                temperature: 140,
+                location: 'Downtown',
+                image: foodImages.pasta,
+                description: 'Creamy mac and cheese with crispy breadcrumbs'
+            },
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'Smokehouse Grill',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Downtown',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
+            },
+            {
                 name: 'Chicken Wings',
                 restaurantName: 'Sports Bar',
                 type: 'hot',
@@ -299,6 +579,46 @@ class SurplusFoodApp {
                 location: 'Midtown',
                 image: foodImages.teriyaki,
                 description: 'Crispy wings with buffalo sauce'
+            },
+            {
+                name: 'Nachos Supreme',
+                restaurantName: 'Sports Bar',
+                type: 'hot',
+                preparationTime: 1,
+                temperature: 130,
+                location: 'Midtown',
+                image: foodImages.teriyaki,
+                description: 'Loaded nachos with cheese, jalapeños, and sour cream'
+            },
+            {
+                name: 'Cheeseburger',
+                restaurantName: 'Sports Bar',
+                type: 'hot',
+                preparationTime: 2,
+                temperature: 145,
+                location: 'Midtown',
+                image: foodImages.wrap,
+                description: 'Classic burger with cheese, lettuce, tomato, and onion'
+            },
+            {
+                name: 'Buffalo Chicken Wrap',
+                restaurantName: 'Sports Bar',
+                type: 'cold',
+                preparationTime: 1,
+                temperature: 40,
+                location: 'Midtown',
+                image: foodImages.wrap,
+                description: 'Spicy chicken with lettuce and ranch in a tortilla'
+            },
+            {
+                name: 'Caesar Salad',
+                restaurantName: 'Sports Bar',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 38,
+                location: 'Midtown',
+                image: foodImages.salad,
+                description: 'Fresh romaine lettuce with parmesan cheese and croutons'
             },
             
             // Cold Food Items - Good savings on fresh items
@@ -313,6 +633,46 @@ class SurplusFoodApp {
                 description: 'Fresh romaine lettuce with parmesan cheese and croutons'
             },
             {
+                name: 'Greek Salad',
+                restaurantName: 'Green Garden Cafe',
+                type: 'cold',
+                preparationTime: 0.8,
+                temperature: 40,
+                location: 'Midtown',
+                image: foodImages.salad,
+                description: 'Mixed greens with feta cheese, olives, and tomatoes'
+            },
+            {
+                name: 'Caprese Sandwich',
+                restaurantName: 'Green Garden Cafe',
+                type: 'cold',
+                preparationTime: 1,
+                temperature: 42,
+                location: 'Midtown',
+                image: foodImages.wrap,
+                description: 'Fresh mozzarella, tomatoes, and basil on artisan bread'
+            },
+            {
+                name: 'Veggie Wrap',
+                restaurantName: 'Green Garden Cafe',
+                type: 'cold',
+                preparationTime: 1.2,
+                temperature: 40,
+                location: 'Midtown',
+                image: foodImages.wrap,
+                description: 'Fresh vegetables with hummus in a spinach tortilla'
+            },
+            {
+                name: 'Fruit Smoothie',
+                restaurantName: 'Green Garden Cafe',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 35,
+                location: 'Midtown',
+                image: foodImages.fruitBowl,
+                description: 'Blend of fresh fruits with yogurt and honey'
+            },
+            {
                 name: 'Fresh Fruit Bowl',
                 restaurantName: 'Healthy Bites',
                 type: 'cold',
@@ -323,6 +683,36 @@ class SurplusFoodApp {
                 description: 'Seasonal fresh fruits including berries, melon, and citrus'
             },
             {
+                name: 'Acai Bowl',
+                restaurantName: 'Healthy Bites',
+                type: 'cold',
+                preparationTime: 1.5,
+                temperature: 35,
+                location: 'Downtown',
+                image: foodImages.fruitBowl,
+                description: 'Acai smoothie bowl topped with granola and fresh berries'
+            },
+            {
+                name: 'Green Smoothie',
+                restaurantName: 'Healthy Bites',
+                type: 'cold',
+                preparationTime: 0.8,
+                temperature: 38,
+                location: 'Downtown',
+                image: foodImages.fruitBowl,
+                description: 'Spinach, kale, and fruit blend with coconut water'
+            },
+            {
+                name: 'Protein Bowl',
+                restaurantName: 'Healthy Bites',
+                type: 'cold',
+                preparationTime: 1.2,
+                temperature: 42,
+                location: 'Downtown',
+                image: foodImages.salad,
+                description: 'Quinoa, grilled chicken, and vegetables with tahini dressing'
+            },
+            {
                 name: 'Mediterranean Wrap',
                 restaurantName: 'Sunshine Cafe',
                 type: 'cold',
@@ -331,6 +721,26 @@ class SurplusFoodApp {
                 location: 'Riverside',
                 image: foodImages.wrap,
                 description: 'Fresh vegetables, hummus, and feta in a soft tortilla wrap'
+            },
+            {
+                name: 'Avocado Toast',
+                restaurantName: 'Sunshine Cafe',
+                type: 'cold',
+                preparationTime: 0.5,
+                temperature: 40,
+                location: 'Riverside',
+                image: foodImages.wrap,
+                description: 'Smashed avocado on sourdough with cherry tomatoes and seeds'
+            },
+            {
+                name: 'Chicken Caesar Wrap',
+                restaurantName: 'Sunshine Cafe',
+                type: 'cold',
+                preparationTime: 1,
+                temperature: 38,
+                location: 'Riverside',
+                image: foodImages.wrap,
+                description: 'Grilled chicken with romaine lettuce and parmesan in a wrap'
             },
             {
                 name: 'Greek Yogurt Parfait',
